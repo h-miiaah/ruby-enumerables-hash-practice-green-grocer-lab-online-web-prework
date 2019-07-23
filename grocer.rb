@@ -1,17 +1,13 @@
 def consolidate_cart(cart)
   # code here
-  cart.each_with_object({}) do |item, consolidated_item|
-      item_name = item.keys.first
-      if consolidated_item[item_name]
-        consolidated_item[item_name][:count] += 1
-      else
-        consolidated_item[item_name] = {
-          price: item[item_name][:price],
-          clearance: item[item_name][:clearence],
-          count: 1
-        }
-      end
+  new_cart = {}
+  cart.each do |items_array|
+    items_array.each do |item, attribute_hash|
+      new_cart[item] ||= attribute_hash
+      new_cart[item][:count] ? new_cart[item][:count] += 1 : new_cart[item][:count] = 1
+    end
   end
+  new_cart
 end
 
 def apply_coupons(cart, coupons)
